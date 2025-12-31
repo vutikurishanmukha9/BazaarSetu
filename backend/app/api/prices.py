@@ -24,14 +24,20 @@ async def get_today_prices(
     state_id: Optional[int] = Query(None, description="Filter by state ID"),
     commodity_id: Optional[int] = Query(None, description="Filter by commodity ID"),
     market_id: Optional[int] = Query(None, description="Filter by market ID"),
+    category: Optional[str] = Query(None, description="Filter by category (vegetable, poultry, leafy, etc.)"),
+    sort_by: Optional[str] = Query("name", description="Sort by: name, price, change"),
+    sort_order: Optional[str] = Query("asc", description="Sort order: asc, desc"),
+    date_from: Optional[date] = Query(None, description="Start date for price range"),
+    date_to: Optional[date] = Query(None, description="End date for price range"),
     page: int = Query(1, ge=1, description="Page number"),
-    page_size: int = Query(50, ge=1, le=100, description="Items per page"),
+    page_size: int = Query(100, ge=1, le=200, description="Items per page"),
     db: AsyncSession = Depends(get_db)
 ):
     """
     Get today's vegetable prices.
     
-    Returns prices with optional filtering by state, commodity, or market.
+    Returns prices with optional filtering by state, commodity, market, or category.
+    Supports sorting by name, price, or price change.
     Includes price change percentage compared to yesterday.
     """
     service = PriceService(db)
@@ -39,6 +45,11 @@ async def get_today_prices(
         state_id=state_id,
         commodity_id=commodity_id,
         market_id=market_id,
+        category=category,
+        sort_by=sort_by,
+        sort_order=sort_order,
+        date_from=date_from,
+        date_to=date_to,
         page=page,
         page_size=page_size
     )

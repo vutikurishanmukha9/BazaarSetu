@@ -27,12 +27,21 @@ class PriceService:
         state_id: Optional[int] = None,
         commodity_id: Optional[int] = None,
         market_id: Optional[int] = None,
+        category: Optional[str] = None,
+        sort_by: Optional[str] = "name",
+        sort_order: Optional[str] = "asc",
+        date_from: Optional[date] = None,
+        date_to: Optional[date] = None,
         page: int = 1,
-        page_size: int = 50
+        page_size: int = 100
     ) -> List[PriceWithDetails]:
-        """Get today's prices with optional filters."""
+        """Get today's prices with optional filters and sorting."""
         
-        today = date.today()
+        # Determine date range
+        if date_from and date_to:
+            target_date = date_to  # Use most recent date
+        else:
+            target_date = date.today()
         
         query = (
             select(Price)
@@ -40,8 +49,7 @@ class PriceService:
                 selectinload(Price.commodity),
                 selectinload(Price.market).selectinload(Market.state)
             )
-            .where(Price.price_date == today)
-            .order_by(desc(Price.modal_price))
+            .where(Price.price_date == target_date)
         )
         
         # Apply filters
@@ -51,16 +59,14 @@ class PriceService:
             query = query.where(Price.market_id == market_id)
         if state_id:
             query = query.join(Market).where(Market.state_id == state_id)
-        
-        # Pagination
-        offset = (page - 1) * page_size
-        query = query.offset(offset).limit(page_size)
+        if category:
+            query = query.join(Commodity).where(Commodity.category == category)
         
         result = await self.db.execute(query)
         prices = result.scalars().all()
         
         # Get yesterday's prices for price change calculation
-        yesterday = today - timedelta(days=1)
+        yesterday = target_date - timedelta(days=1)
         yesterday_prices = await self._get_prices_by_date(yesterday)
         yesterday_map = {
             (p.commodity_id, p.market_id): p.modal_price 
@@ -76,10 +82,12 @@ class PriceService:
                 price_change = ((price.modal_price - yesterday_price) / yesterday_price) * 100
             
             response.append(PriceWithDetails(
+                commodity_id=price.commodity_id,
                 commodity_name=price.commodity.name,
                 commodity_name_telugu=price.commodity.name_telugu,
                 commodity_name_hindi=price.commodity.name_hindi,
                 commodity_image=price.commodity.image_url,
+                category=price.commodity.category,
                 market_name=price.market.name,
                 district=price.market.district,
                 state_name=price.market.state.name,
@@ -88,10 +96,21 @@ class PriceService:
                 modal_price=price.modal_price,
                 price_date=price.price_date,
                 unit=price.commodity.unit,
-                price_change=round(price_change, 2) if price_change else None
+                price_change_percent=round(price_change, 2) if price_change else None
             ))
         
-        return response
+        # Apply sorting
+        if sort_by == "name":
+            response.sort(key=lambda x: x.commodity_name.lower(), reverse=(sort_order == "desc"))
+        elif sort_by == "price":
+            response.sort(key=lambda x: x.modal_price, reverse=(sort_order == "desc"))
+        elif sort_by == "change":
+            # Sort by price change, putting biggest drops first
+            response.sort(key=lambda x: x.price_change_percent or 0, reverse=(sort_order == "desc"))
+        
+        # Pagination
+        offset = (page - 1) * page_size
+        return response[offset:offset + page_size]
     
     async def _get_prices_by_date(self, target_date: date) -> List[Price]:
         """Get all prices for a specific date."""

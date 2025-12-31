@@ -68,6 +68,15 @@ COMMODITIES = [
     {"name": "Lemon", "name_telugu": "నిమ్మకాయ", "name_hindi": "नींबू", "category": "fruit"},
     {"name": "Coconut", "name_telugu": "కొబ్బరి", "name_hindi": "नारियल", "category": "fruit"},
     {"name": "Banana", "name_telugu": "అరటిపళ్ళు", "name_hindi": "केला", "category": "fruit"},
+    # Poultry & Eggs
+    {"name": "Country Chicken", "name_telugu": "నాటుకోడి", "name_hindi": "देसी मुर्गा", "category": "poultry"},
+    {"name": "Broiler Chicken", "name_telugu": "బ్రాయిలర్ చికెన్", "name_hindi": "ब्रायलर मुर्गा", "category": "poultry"},
+    {"name": "Chicken Boneless", "name_telugu": "బోన్‌లెస్ చికెన్", "name_hindi": "बोनलेस चिकन", "category": "poultry"},
+    {"name": "Chicken Curry Cut", "name_telugu": "కర్రీ కట్ చికెన్", "name_hindi": "करी कट चिकन", "category": "poultry"},
+    {"name": "Chicken Liver", "name_telugu": "చికెన్ లివర్", "name_hindi": "चिकन लीवर", "category": "poultry"},
+    {"name": "Eggs", "name_telugu": "గుడ్లు", "name_hindi": "अंडे", "category": "poultry"},
+    {"name": "Country Eggs", "name_telugu": "నాటు గుడ్లు", "name_hindi": "देसी अंडे", "category": "poultry"},
+    {"name": "Duck Eggs", "name_telugu": "బాతు గుడ్లు", "name_hindi": "बतख अंडे", "category": "poultry"},
 ]
 
 

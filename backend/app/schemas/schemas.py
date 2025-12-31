@@ -96,10 +96,12 @@ class PriceResponse(PriceBase):
 
 class PriceWithDetails(BaseModel):
     """Price with full commodity and market details for frontend."""
+    commodity_id: Optional[int] = None
     commodity_name: str
     commodity_name_telugu: Optional[str] = None
     commodity_name_hindi: Optional[str] = None
     commodity_image: Optional[str] = None
+    category: Optional[str] = "vegetable"
     market_name: str
     district: str
     state_name: str
@@ -108,7 +110,7 @@ class PriceWithDetails(BaseModel):
     modal_price: float
     price_date: date
     unit: str = "kg"
-    price_change: Optional[float] = None  # % change from yesterday
+    price_change_percent: Optional[float] = None  # % change from yesterday
 
 
 # ==================== Price Trend Schemas ====================

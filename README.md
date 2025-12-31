@@ -1,66 +1,78 @@
 # BazaarSetu
 
-> **Connecting You to Real Bazaar Prices** - Live vegetable market prices from AP & Telangana
+> **Connecting You to Real Bazaar Prices** - Live vegetable & poultry market prices from AP & Telangana
 
+[![Frontend](https://img.shields.io/badge/Frontend-React%20%2B%20Vite-61DAFB?style=flat&logo=react)](./frontend)
 [![Backend](https://img.shields.io/badge/Backend-FastAPI-009688?style=flat&logo=fastapi)](./backend)
-[![Mobile](https://img.shields.io/badge/Mobile-Flutter-02569B?style=flat&logo=flutter)](./mobile)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
 ## What is BazaarSetu?
 
-BazaarSetu is a mobile-first application that brings **live vegetable prices** directly to your phone. No need to visit the market just to check prices!
+BazaarSetu is a modern web application designed to bridge the gap between farmers, consumers, and local markets by providing **real-time mandi prices**. It empowers users with transparent pricing for vegetables and poultry, helping them make informed buying decisions.
 
-### Features
+### Key Features
 
-- **Live Prices** - Real-time vegetable prices from AP & Telangana markets
-- **Price Trends** - Track price history (daily, weekly, monthly)
-- **Price Alerts** - Get notified when prices drop below your threshold
-- **Market Comparison** - Compare prices across different mandis
-- **Vendor Mapping** - Find nearby vegetable vendors
-- **Multi-language** - Available in English, Telugu, and Hindi
+- **Live Market Prices** - Real-time data from 20+ mandis in AP & Telangana
+- **Multiple Categories** - Filter by Vegetables, Poultry (Chicken/Eggs), Fruits, etc.
+- **Premium UI/UX** - Beautiful glassmorphism design with Dark Mode support
+- **Multi-language** - Full support for **English**, **Telugu (తెలుగు)**, and **Hindi (हिंदी)**
+- **Advanced Filtering** - Sort by Price, A-Z, or identify the **Biggest Price Drops**
+- **Price Trends** - Analyze price history with interactive charts (7/30 days)
+- **Mobile Optimized** - Responsive grid layout that works perfectly on all devices
 
 ## Tech Stack
 
-| Component | Technology |
-|-----------|------------|
-| Mobile App | Flutter |
-| Backend | FastAPI (Python) |
-| Database | PostgreSQL |
-| Hosting | Render |
-
-## Project Structure
-
-```
-BazaarSetu/
-├── backend/         # FastAPI backend
-├── mobile/          # Flutter app
-└── README.md
-```
+| Component | Technology | Description |
+|-----------|------------|-------------|
+| **Frontend** | React + Vite | Fast, responsive web interface |
+| **Styling** | CSS Variables | Custom glassmorphism design system |
+| **Backend** | FastAPI | High-performance Python API |
+| **Database** | SQLite (Dev) | Local development database (moving to PostgreSQL) |
+| **Data Source** | Data.gov.in | Government Open Data API |
 
 ## Getting Started
 
-### Backend
+### Prerequisites
+- Node.js (v16+)
+- Python (v3.9+)
 
+### 1. Backend Setup
 ```bash
 cd backend
+python -m venv venv
+# Windows
+.\venv\Scripts\activate
+# Install dependencies
 pip install -r requirements.txt
+# Run server
 uvicorn app.main:app --reload
 ```
 
-### Mobile App
-
+### 2. Frontend Setup
 ```bash
-cd mobile
-flutter pub get
-flutter run
+cd frontend
+npm install
+npm run dev
 ```
+Visit http://localhost:5173 to view the app!
 
-## Data Sources
+## Roadmap & Future Plans
 
-- [data.gov.in](https://data.gov.in) - Government Catalog API for mandi prices
-- [eNAM (APISetu)](https://apisetu.gov.in) - Electronic National Agriculture Market
-- Web scraping for additional vendor data
+The application is currently in **Phase 2 (Beta)**. Here is the plan for future development:
+
+### **Phase 3: Robustness & Scale (Next Steps)**
+- [ ] **PostgreSQL Migration**: Move from SQLite to Production-grade PostgreSQL
+- [ ] **Authentication**: User login/signup to save favorite markets
+- [ ] **Price Alerts**: Email/WhatsApp notifications when prices drop
+- [ ] **Vendor Portal**: Allow local vendors to update their own prices
+
+### **Phase 4: AI & Intelligence**
+- [ ] **Price Prediction**: AI model to forecast prices based on historical trends & weather
+- [ ] **Recipe Suggestions**: Suggest recipes based on vegetables with lowest prices
+- [ ] **Voice Search**: "What is the price of Tomato in Guntur?"
+
+## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
-
 MIT License - see [LICENSE](./LICENSE)
