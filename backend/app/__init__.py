@@ -1,0 +1,1 @@
+"""BazaarSetu Backend Application."""
